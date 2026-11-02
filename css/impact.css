@@ -1,0 +1,131 @@
+/* Impact page (impact.html): layout only, tokens only. Shared parts (tokens, type roles, buttons, links,
+   header, footer, motion vocabulary) come from styles.css.
+   The ring and bars are driven by the numbers in the page's data block. */
+
+/* ---------- 1. Opening: the claim, one line, the Donate button. Nothing here moves. ---------- */
+.i-hero { padding-block: var(--page-top) var(--section-y); }
+.i-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xl); }
+.i-hero-title { max-width: 14ch; }
+.i-hero-side { display: grid; gap: var(--s-lg); justify-items: start; max-width: var(--measure); }
+.give-note { color: var(--muted); }
+.on-slate .give-note { color: var(--on-slate-muted); }
+@media (min-width: 62.5em) {
+  .i-hero-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: start; }
+  .i-hero-title { grid-column: 1 / span 8; }
+  .i-hero-side { grid-column: 9 / -1; padding-top: var(--s-xs); } /* level with the headline, as Home's hero side */
+}
+
+/* ---------- 2. The proof (slate): the ring, the tally, the condition bars ---------- */
+.proof { padding-block: var(--section-y); }
+.proof-title { font-size: var(--t-h2); line-height: 1.05; max-width: 14ch; }
+
+/* The ring: one unit of path is the whole circle (pathLength="1"), so every length below is a share of the
+   people screened. --n (needed follow-up) and --of (screened) are set on .meter-block in the data block. */
+.meter-block {
+  --arc: calc(var(--n) / var(--of));
+  display: grid; gap: var(--s-lg); align-items: center;
+  margin-top: var(--page-top); /* the same 48 -> 96 step, now named */
+}
+.meter { width: min(100%, 13rem); height: auto; }
+.meter-track { fill: none; stroke: var(--track); stroke-width: 14; }
+.meter-arc { fill: none; stroke: var(--gold); stroke-width: 14; stroke-linecap: butt; stroke-dasharray: var(--arc) 1; stroke-dashoffset: 0; }
+/* a slate gap at every person's edge cuts the ring into one segment per person screened */
+.meter-gaps { fill: none; stroke: var(--slate); stroke-width: 16; stroke-dasharray: calc(0.14 / var(--of)) calc(0.86 / var(--of)); stroke-dashoffset: calc(0.07 / var(--of)); }
+.meter-figure .n { display: block; font-size: var(--t-stat); line-height: 0.9; letter-spacing: -0.03em; }
+.meter-figure .n .gold { color: var(--gold); }
+.meter-figure .cap { display: block; margin-top: var(--s-md); font-size: var(--t-lead); color: var(--on-slate-body); max-width: var(--measure-s); }
+
+.tally { margin-top: var(--section-y); border-bottom: 1px solid var(--track); }
+.tally div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--s-lg); padding-block: var(--s-lg); border-top: 1px solid var(--track); }
+.tally dt { font-size: var(--t-lead); color: var(--on-slate-body); line-height: 1.45; }
+.tally dd { font-size: var(--t-h2-xl); line-height: 1; }
+
+.conditions { margin-top: clamp(var(--s-3xl), 8vw, var(--s-4xl)); display: grid; gap: var(--s-lg); }
+.conditions h3 { font-size: var(--t-h3); line-height: 1.15; letter-spacing: var(--track-display-s); }
+.conditions ul { display: grid; }
+.conditions li {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+  column-gap: var(--s-lg); row-gap: var(--s-xs); padding-block: var(--s-md);
+  border-top: 1px solid var(--track); overflow-wrap: break-word;
+}
+.c-name { grid-column: 1; grid-row: 1; color: var(--on-slate); font-weight: 700; }
+.c-name span { display: block; font-weight: 400; color: var(--on-slate-muted); }
+.c-num { grid-column: 2; grid-row: 1; font-size: var(--t-h2); line-height: 1; text-align: right; min-width: 2ch; font-variant-numeric: lining-nums tabular-nums; }
+/* each bar is its count over the largest count (--max, set on the list in the data block) */
+.c-bar { grid-column: 1 / -1; grid-row: 2; height: var(--s-xs); border-radius: 4px; background: var(--gold); width: calc(var(--n) / var(--max) * 100%); }
+@media (min-width: 45em) {
+  .conditions li { grid-template-columns: minmax(0, 1fr) minmax(0, 14rem) 4rem; }
+  .c-bar { grid-column: 2; grid-row: 1; width: calc(var(--n) / var(--max) * 100%); }
+  .c-num { grid-column: 3; }
+}
+@media (min-width: 62.5em) {
+  .proof-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .proof-title { grid-column: 1 / span 8; }
+  .meter-block { grid-column: 1 / -1; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  /* the ring sits hard against its numeral, so ring and number read as one object */
+  .meter { grid-column: 1 / span 5; width: 100%; max-width: 27rem; justify-self: end; }
+  .meter-figure { grid-column: 6 / -1; }
+  .tally { grid-column: 1 / -1; }
+  .tally div { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .tally dt { grid-column: 1 / span 6; }
+  .tally dd { grid-column: 7 / span 6; }
+  .conditions { grid-column: 1 / -1; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .conditions h3 { grid-column: 1 / span 5; align-self: start; max-width: 16ch; }
+  .conditions ul { grid-column: 7 / -1; }
+  .conditions li { grid-template-columns: minmax(0, 1fr) 10rem 4rem; }
+}
+
+/* ---------- 3. Why it matters: the WHO figure and the team's own words ---------- */
+.why-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xl); } /* heading to content 48px, as every section */
+.why-title { max-width: 16ch; }
+.why-stat { display: grid; gap: var(--s-sm); align-content: start; }
+/* one step below the section heading (56 under 72 at 1440), so the claim leads and the figure supports it */
+.why-stat .n { font-size: var(--t-h2); line-height: 1.05; color: var(--ink); }
+.why-stat .cap { font-size: var(--t-lead); line-height: 1.45; max-width: var(--measure-s); }
+.why-source { color: var(--muted); }
+.why-words { display: grid; gap: var(--s-md); max-width: var(--measure); }
+.why-words p { font-size: var(--t-lead); line-height: 1.5; color: var(--ink); }
+@media (min-width: 62.5em) {
+  .why-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .why-title { grid-column: 1 / span 8; }
+  .why-stat { grid-column: 1 / span 6; }
+  .why-words { grid-column: 8 / -1; }
+}
+
+/* ---------- 4. A founder's words: the portrait beside the quote ---------- */
+.words-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xl); align-items: center; }
+/* never wider than the photo's own 490 pixels, even at large browser text sizes. Below 1000px it is capped at
+   245px, half its pixels, so a 2x phone screen gets a sharp picture (shown 358px wide it was soft on phones) */
+.words-photo { width: min(100%, var(--measure-s)); max-width: 245px; }
+.words-photo img { width: 100%; height: auto; border-radius: var(--radius); }
+.words-quote { display: grid; gap: var(--s-xl); justify-items: start; }
+.words-quote blockquote p { font-size: var(--t-quote); line-height: 1.22; letter-spacing: -0.015em; }
+.words-quote figcaption { display: grid; gap: var(--s-2xs); }
+.words-quote figcaption strong { color: var(--ink); }
+.words-quote figcaption span { color: var(--muted); }
+.words-who { max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  .words-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .words-photo { grid-column: 1 / span 4; width: 100%; max-width: 490px; }
+  .words-quote { grid-column: 6 / -1; }
+  /* the opening mark hangs into the margin where the column has room for it */
+  .words-quote blockquote p { text-indent: -0.42em; }
+}
+
+/* ---------- 5-7. Where a gift goes, then the close (slate into the footer) ---------- */
+.give { padding-block: var(--section-y) 0; }
+/* single column on phones: minmax(0, 1fr) lets a long word wrap instead of widening the page */
+.give-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xl); }
+/* the team's own Zeffy sentence, kept whole in the text face (split into three display lines it read as a list of "-ing" slogans) */
+.give-text { color: var(--on-slate-body); line-height: 1.5; max-width: var(--measure); overflow-wrap: break-word; } /* "neighborhoods" is wider than a 320px phone at 200% text */
+@media (min-width: 62.5em) {
+  .give-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .give-head { grid-column: 1 / span 4; display: grid; gap: var(--s-lg); align-content: start; }
+  .give-text { grid-column: 6 / -1; }
+}
+
+/* the ask sits closer to the gift list than a new section would: it answers it */
+.close { padding-block: var(--section-y); margin-top: var(--section-y-s); border-top: 1px solid var(--track); }
+.close-title { font-size: var(--t-close); line-height: 0.96; max-width: 12ch; }
+.close-asks { margin-top: clamp(var(--s-2xl), 5vw, var(--s-3xl)); display: grid; gap: var(--s-lg); justify-items: start; }
+.close-ask-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-md) var(--s-xl); }

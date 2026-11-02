@@ -1,0 +1,139 @@
+/* About (about.html): page layout only. Every color, size and space comes from styles.css tokens.
+   Raw values left here, with their reasons:
+   - the EYE letters' column (0.78 of the letter size), so the three words line up whatever the letter's width;
+   - the portraits' widths (9, 12 and 15rem): photo sizes, as home.css keeps its hero heights;
+   - the 999px pill radius and 1px hairlines, the same raw values styles.css uses;
+   - the partner map's shape (4:5 on phones, 4:3 from 45em), so all four pins fit at street level. */
+
+/* Long names ("Ramachandran,", "Hawkins-Hatton,") are wider than a phone at 200% text: let a word break
+   before it runs off the screen, as styles.css already does for display headings. */
+main p, main li { overflow-wrap: break-word; }
+/* one-column grids (phones) never grow past the screen to fit one long word; wider layouts redefine their columns below */
+.intro-grid, .eye-grid, .eye-head, .team-grid, .partners-wrap, .clinic, .community, .community-text, .site, .contact-inner { grid-template-columns: minmax(0, 1fr); }
+
+/* the page's first section (the founders) starts the same distance below the header as the other pages' titles */
+.about-top { padding-top: var(--page-top); }
+
+/* ---------- 2. Why we started (the team's mission paragraph) ---------- */
+.intro-grid { display: grid; gap: var(--s-xl); }
+.intro-title { max-width: 12ch; }
+.intro-text { max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  .intro-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: start; }
+  .intro-title { grid-column: 1 / span 5; }
+  .intro-text { grid-column: 7 / -1; padding-top: var(--s-xs); }
+}
+
+/* ---------- 3. How we help: E, Y, E read down the page ---------- */
+.eye-grid { display: grid; gap: var(--s-2xl); }
+.eye-head { display: grid; gap: var(--s-md); align-content: start; }
+.eye-head h2 { max-width: 10ch; }
+.eye-head .lead { max-width: var(--measure-s); }
+.eye-row {
+  display: grid; grid-template-columns: calc(var(--t-stat) * 0.78) minmax(0, 1fr);
+  column-gap: var(--s-lg); align-items: start;
+  padding-block: var(--s-lg); border-top: 1px solid var(--rule);
+}
+.eye-row:last-child { border-bottom: 1px solid var(--rule); }
+.eye-letter { font-size: var(--t-stat); line-height: 0.8; color: var(--ink); }
+.eye-row h3 { font-size: var(--t-lead); font-weight: 700; color: var(--ink); line-height: 1.3; }
+.eye-row p { margin-top: var(--s-2xs); max-width: var(--measure); }
+.eye-close { max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  .eye-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); row-gap: var(--s-xl); }
+  /* the letters take two columns ending one gap before column 7, so each word starts on column 7, the page's text line */
+  .eye-head { grid-column: 1 / span 4; grid-row: 1 / span 2; }
+  .eye-list { grid-column: 5 / -1; }
+  .eye-close { grid-column: 7 / -1; }
+  .eye-row { grid-template-columns: calc((100% - 7 * var(--s-xl)) / 4 + var(--s-xl)) minmax(0, 1fr); column-gap: var(--s-xl); }
+  .eye-letter { justify-self: end; }
+}
+
+/* ---------- 1. Who runs Shared Vision: the page title, then one row per person, like the stops board ---------- */
+.team-grid { display: grid; gap: var(--s-2xl); }
+.team-title { max-width: 14ch; } /* the site's hero size in a wide slot: two lines at 1440, as Impact's title */
+.person {
+  display: grid; grid-template-columns: min(9rem, 40%) minmax(0, 1fr); /* the photo never crowds the name at large text sizes */
+  grid-template-areas: "photo name" "bio bio";
+  gap: var(--s-lg); padding-block: var(--s-xl); border-top: 1px solid var(--rule);
+}
+.person-photo { grid-area: photo; }
+.person-photo img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); background: var(--paper-2); }
+.person-name { grid-area: name; align-self: end; display: grid; gap: var(--s-2xs); overflow-wrap: break-word; }
+.person-role { color: var(--muted); }
+.person-bio { grid-area: bio; max-width: var(--measure); }
+@media (min-width: 45em) {
+  .person { grid-template-columns: min(12rem, 35%) minmax(0, 1fr); grid-template-areas: "photo name" "photo bio"; column-gap: var(--s-xl); row-gap: var(--s-md); }
+  .person-name { align-self: start; }
+}
+@media (min-width: 62.5em) {
+  /* on the page's 12 columns, so every bio starts where the intro and thank-you text start (column 7) */
+  .person { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-areas: none; }
+  .person-photo { grid-area: auto; grid-column: 1 / span 2; }
+  .person-name { grid-area: auto; grid-column: 3 / span 4; }
+  .person-bio { grid-area: auto; grid-column: 7 / -1; }
+}
+
+/* ---------- 4. Our partners ---------- */
+.partners-wrap { display: grid; gap: var(--s-2xl); } /* heading to its first group 48px, as every section heading */
+.clinic, .community-text { display: grid; gap: var(--s-lg); align-content: start; }
+/* group labels in the text face, a step below the partner names they sit over */
+.partner-group { font-size: var(--t-lead); font-weight: 700; color: var(--ink); line-height: 1.3; }
+.clinic-list li { display: grid; gap: var(--s-2xs); padding-block: var(--s-lg); border-top: 1px solid var(--rule); align-content: start; }
+.clinic-list li p:last-child { max-width: var(--measure-s); }
+@media (min-width: 62.5em) {
+  .clinic-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--s-xl); }
+}
+
+.community { display: grid; gap: var(--s-2xl); margin-top: var(--s-md); } /* the two groups stay 64px apart */
+.site { display: grid; gap: var(--s-sm); justify-items: start; padding-block: var(--s-lg); border-top: 1px solid var(--rule); }
+.site img { width: auto; max-width: 100%; } /* heights come from the shared .logo-* classes, matched by eye */
+.site-name { font-size: var(--t-lead); font-weight: 700; color: var(--ink); line-height: 1.3; }
+.site-places { display: grid; gap: var(--s-sm); }
+.site-places li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-sm); align-items: start; }
+
+/* a numbered pin: the same number as the pin on the Google map, so each address finds its place */
+.pin-num {
+  display: inline-grid; place-items: center;
+  min-width: var(--s-xl); height: var(--s-xl); padding-inline: var(--s-2xs);
+  border-radius: 999px; background: var(--ink); color: var(--paper);
+  font-weight: 700; line-height: 1; font-variant-numeric: lining-nums;
+}
+.place-text { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xs); } /* the address fills its column, so a long word breaks at large text */
+.place-text .stop-map { max-width: 100%; }
+.place-text .stop-map { justify-self: start; } /* styles.css right-aligns Map on the stops board; here it sits under its address */
+
+/* The partner map: a Google My Maps embed. Until it loads, the box holds one quiet button (phones load it only on a press). */
+.map { align-self: start; margin: 0; }
+.map-box { position: relative; overflow: hidden; background: var(--paper-2); border-color: var(--rule); }
+.map-start { display: grid; gap: var(--s-xs); justify-items: center; text-align: center; padding: var(--s-2xl) var(--s-lg); }
+.map-cost { color: var(--muted); }
+.map-loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); } /* shows through until Google's map paints over it */
+.map-embed { position: relative; display: block; width: 100%; aspect-ratio: 4 / 5; border: 0; } /* tall on phones, so all four pins fit at street level */
+@media (min-width: 45em) {
+  .map-embed { aspect-ratio: 4 / 3; }
+}
+@media (min-width: 62.5em) {
+  .community { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: start; }
+  .community-text { grid-column: 1 / span 5; }
+  .map { grid-column: 6 / -1; margin-top: var(--s-3xl); position: sticky; top: var(--s-xl); } /* stays beside the list while it scrolls */
+}
+
+/* ---------- 5. Thank you: heading left, the team's sentence on column 7 like the page's other text ---------- */
+.thanks-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); } /* the column never grows to fit one long name */
+.thanks-text { max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  .thanks-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: start; }
+  .thanks-grid h2 { grid-column: 1 / span 5; }
+  .thanks-text { grid-column: 7 / -1; }
+}
+
+/* ---------- 6. Write to us: the one slate band ---------- */
+.contact-band { padding-block: var(--section-y); }
+.contact-inner { display: grid; gap: var(--s-md); justify-items: start; }
+.contact-inner .lead { color: var(--on-slate-body); max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  .contact-inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: end; }
+  .contact-inner h2 { grid-column: 1 / span 5; grid-row: 1 / span 3; align-self: start; }
+  .contact-inner .lead, .contact-inner .big-link, .contact-inner .link-line { grid-column: 7 / -1; }
+}

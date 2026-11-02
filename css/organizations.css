@@ -1,0 +1,88 @@
+/* Bring the van (organizations.html): page layout only. Every color, size and space comes from styles.css tokens.
+   The raw values left are photo geometry (the van photo's heights, and the panel's share of the photo's width)
+   and 1px hairlines. */
+
+/* ---------- 1. Hero: the promise and the ask; the van's open door beside it, with what the van needs to park ---------- */
+.org-hero { padding-top: var(--page-top); padding-bottom: var(--section-y-s); }
+.org-hero-text { display: grid; gap: var(--s-xl); justify-items: start; padding-bottom: clamp(var(--s-2xl), 5vw, var(--s-3xl)); }
+.org-hero-title { max-width: 10ch; }
+.org-hero-text .lead { max-width: var(--measure); }
+.org-hero-ask, .org-close-ask { display: grid; gap: var(--s-xs); justify-items: start; }
+/* the order of the two routes, right under the ask it explains: email us first, the van team's own form second */
+.org-route { display: grid; gap: var(--s-2xs); justify-items: start; max-width: var(--measure); margin-top: calc(var(--s-md) - var(--s-xl)); }
+
+.org-hero-stage { grid-column: full; display: grid; grid-template-columns: inherit; }
+.org-photo { grid-column: full; }
+.org-photo img { width: 100%; height: clamp(20rem, 85vw, 30rem); height: min(clamp(20rem, 85vw, 30rem), 75svh); object-fit: cover; object-position: 40% 55%; background: var(--paper-2); } /* a phone turned sideways never gets a photo taller than its screen */
+
+/* "Room to park": the facts a site host needs first, on a panel over the photo. Depth from the overlap, never a shadow. */
+.park-card {
+  grid-column: content; position: relative; z-index: 2;
+  margin-top: calc(-1 * var(--s-3xl));
+  max-width: var(--measure-s); /* padding and edge from the shared .panel-text and .panel */
+  display: grid; gap: var(--s-xs); align-content: start;
+}
+
+@media (min-width: 62.5em) {
+  /* text in the left half, the photo in the right half running off the window's right edge */
+  .org-hero { padding-bottom: calc(var(--s-3xl) + var(--section-y-s)); } /* room for the panel that hangs below the photo */
+  .org-hero .frame {
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [content-start] minmax(0, calc(var(--content) / 2))
+      [photo-start] minmax(0, calc(var(--content) / 2))
+      [content-end] minmax(var(--gutter), 1fr) [full-end];
+    align-items: start;
+  }
+  .org-hero-text { grid-column: content-start / photo-start; padding: 0 var(--s-2xl) 0 0; } /* the title starts --page-top below the header, as on every page */
+  .org-hero-stage { grid-column: photo-start / full-end; display: block; position: relative; }
+  .org-photo img { height: clamp(30rem, 44vw, 42rem); border-radius: var(--radius) 0 0 var(--radius); }
+  .park-card { position: absolute; left: var(--s-xl); bottom: calc(-1 * var(--s-3xl)); width: min(var(--measure-s), 80%); max-width: none; margin: 0; }
+}
+
+/* ---------- 2. What a visit looks like: heading and lead above, the four steps across ---------- */
+.visit-grid { display: grid; gap: var(--s-2xl); }
+.visit-head { display: grid; gap: var(--s-md); }
+.visit-head .lead { max-width: var(--measure); }
+.visit-more { margin-top: calc(var(--s-xl) - var(--s-2xl)); } /* 32px under the steps, as on Home */
+@media (min-width: 45em) {
+  /* two by two, each numeral above its words so the words get the full column */
+  .visit-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .visit-steps .step { grid-template-columns: minmax(0, 1fr); gap: var(--s-xs); align-content: start; } /* rows keep their height, so every step's heading sits on one line across */
+}
+@media (min-width: 62.5em) {
+  .visit-head { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: end; }
+  .visit-head h2 { grid-column: 1 / span 7; }
+  .visit-head .lead { grid-column: 8 / -1; }
+}
+@media (min-width: 75em) {
+  .visit-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------- 3. Who to contact: two groups, as About sorts its partners. First the van team's own request form
+   (the second route, after emailing us), then the four other programs. One row per program. ---------- */
+.contacts-grid { display: grid; gap: var(--s-2xl); }
+.contact-group { display: grid; gap: var(--s-lg); }
+.contact-group + .contact-group { margin-top: var(--s-md); } /* groups sit further apart than a heading from its content */
+/* group labels in the text face, a step below the program names they sit over (About's .partner-group) */
+.contact-group-label { font-size: var(--t-lead); font-weight: 700; color: var(--ink); line-height: 1.3; }
+.contact-list { border-bottom: 1px solid var(--rule); }
+.contact { display: grid; gap: var(--s-2xs); padding-block: var(--s-lg); border-top: 1px solid var(--rule); }
+.contact h4 { margin: 0; } /* styles.css resets margins on h1 to h3 only */
+.contact p { max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  /* name left, its one plain line right, on the page's 12 columns (the line starts on column 6) */
+  .contact { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: baseline; }
+  .contact > h4 { grid-column: 1 / span 5; }
+  .contact > p { grid-column: 6 / -1; }
+}
+
+/* ---------- 4. Plan a visit with us: the ask again, on the page's one slate band ---------- */
+.org-close { padding-block: var(--section-y); }
+.org-close-inner { display: grid; gap: var(--s-md); justify-items: start; } /* 16px, as the other closing bands */
+.org-close-inner .lead { color: var(--on-slate-body); max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  .org-close-inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .org-close-inner h2 { grid-column: 1 / span 5; grid-row: 1 / span 2; }
+  .org-close-inner .lead, .org-close-ask { grid-column: 7 / -1; }
+}

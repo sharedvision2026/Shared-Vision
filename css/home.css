@@ -1,0 +1,98 @@
+/* Home (index.html): page layout only. Every color, size and space comes from styles.css tokens.
+   The raw rem and cqw values left here are photo geometry (the hero photo's height, and the van card's place on
+   the wide photo, measured in fix round 1 so the card covers the Penn Medicine web address painted on the van). */
+
+/* ---------- 1. Hero ---------- */
+.hero { padding-top: var(--page-top); }
+.hero-text { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xl); }
+.hero-title { max-width: 11ch; }
+.hero-side { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xl); justify-items: start; max-width: var(--measure); }
+
+/* Phones and tablets: no photo here, so the van stops follow the promise at once; the van's painted side
+   follows the stops instead (.home-van-look). Fix round 3: the photo pushed the first stop to the third
+   phone screen, and every narrow crop of it cut the van's lettering to "...rhoods". */
+.hero-stage { display: none; }
+
+@media (min-width: 56.25em) {
+  .hero-text { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: start; padding-bottom: clamp(var(--s-2xl), 5vw, var(--s-3xl)); }
+  .hero-title { grid-column: 1 / span 7; max-width: none; }
+  .hero-side { grid-column: 9 / span 4; padding-top: var(--s-xs); }
+
+  /* From 900px, the wide photo of the founders at the van. The card sits over the Penn Medicine web address
+     painted on the van, left of the founders; the van's painted name stays visible above it. Its box is
+     measured in the photo's own width (cqw), so it covers the same part of the picture at every width and
+     stays inside the photo (fix round 1 measured the place, NOTES section 9; fix round 3 brought it down from
+     1200px to 900px, where the narrower crops cut the lettering). */
+  .hero-stage { grid-column: content-start / full-end; display: block; position: relative; container-type: inline-size; }
+  .hero-photo { position: relative; }
+  .hero-photo img { width: 100%; height: clamp(30rem, 48vw, 46rem); object-fit: cover; object-position: 50% 0%; border-radius: var(--radius) 0 0 var(--radius); background: var(--paper-2); }
+
+  /* "Look for this van": wayfinding on the photo. Depth comes from the overlap itself, never from a shadow. */
+  .van-card {
+    position: absolute; z-index: 2;
+    left: 4cqw; top: 16cqw; width: 30cqw; min-height: 14.2cqw;
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xs); align-content: start;
+  }
+  .van-card .display { color: var(--ink); }
+  .home-van-look { display: none; } /* the hero photo does this job from 900px */
+}
+
+/* ---------- 2. Van stops: a timetable board, heading above, rows across the full width ---------- */
+.stops-section { scroll-margin-top: var(--s-md); }
+.stops-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xl); }
+.stops-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); }
+.stops-head .lead { max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  .stops-head { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: end; }
+  .stops-head h2 { grid-column: 1 / span 7; }
+  .stops-head .lead { grid-column: 8 / -1; }
+}
+
+/* ---------- 3. What happens at the van: heading left, the four steps right ---------- */
+.screening-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xl); }
+.screening-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); align-content: start; }
+.screening-head h2 { max-width: 12ch; }
+.screening-head .lead { max-width: var(--measure-s); }
+.screening-more { margin-top: calc(var(--s-xl) - var(--s-2xl)); } /* 32px below the steps, as at 1000px and up */
+@media (min-width: 45em) {
+  /* two by two, each numeral above its words so the words get the full column */
+  .screening-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .screening-steps .step { grid-template-columns: minmax(0, 1fr); gap: var(--s-xs); }
+}
+@media (min-width: 62.5em) {
+  .screening-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); row-gap: var(--s-xl); }
+  .screening-head { grid-column: 1 / span 5; grid-row: 1 / span 2; }
+  .screening-steps { grid-column: 7 / -1; }
+  .screening-more { grid-column: 7 / -1; margin-top: 0; }
+}
+
+/* ---------- 4. Help after the screening: heading above, three answers across ---------- */
+.help-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xl); }
+.help-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); }
+.help-head .lead { max-width: var(--measure); }
+.help-list li { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xs); padding-block: var(--s-lg); border-top: 1px solid var(--rule); align-content: start; }
+.help-list p { max-width: var(--measure-s); }
+@media (min-width: 62.5em) {
+  .help-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--s-xl); }
+}
+
+/* ---------- 5. Shelters and groups we work with: left-aligned like every other section; the map is on About ---------- */
+.partners-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xl); }
+.partners-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xs); justify-items: start; }
+@media (min-width: 62.5em) {
+  /* the site's spine: heading in columns 1-5, the logos from column 7, so the row never leaves one side empty */
+  .partners-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: start; }
+  .partners-head { grid-column: 1 / span 5; }
+  .partners .logos { grid-column: 7 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--s-xl); } /* three marks on one row */
+}
+
+/* ---------- 6. Run a shelter or program? ---------- */
+.orgs-band { padding-block: var(--section-y); }
+.orgs-band-inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); justify-items: start; }
+.orgs-band-inner .lead { color: var(--on-slate-body); max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  .orgs-band-inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: end; }
+  .orgs-band-inner h2 { grid-column: 1 / span 5; grid-row: 1 / span 2; align-self: start; }
+  .orgs-band-inner .lead { grid-column: 7 / -1; }
+  .orgs-band-inner .big-link { grid-column: 7 / -1; }
+}

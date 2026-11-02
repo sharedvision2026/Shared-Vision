@@ -1,0 +1,119 @@
+/* For patients (patients.html): page layout only. Every color, size and space comes from styles.css tokens.
+   Raw values left here: 1px hairlines (as in styles.css) and the 48px link targets (styles.css writes the
+   same literal).
+   The split section, the disclosure list (.topic), the "On this page" list and the
+   "Look for this van" figure now live in styles.css (fix round 3); this file only places them. */
+
+/* ---------- In-page jumps: every section a link lands on keeps a little room above it ---------- */
+.jump { scroll-margin-top: var(--s-md); }
+
+/* Every grid on this page gets a column that may shrink below its longest word, and long words may break as a
+   last resort, so a reader who sets large browser text never gets a sideways scroll (measured at 32px text). */
+.page-head-grid, .stops-grid, .glasses-grid, .help-body, .learn-grid, .topics { grid-template-columns: minmax(0, 1fr); }
+.check h3, .help-items h3, .program h3, .doc-title { overflow-wrap: break-word; }
+
+/* ---------- 0. Page head: the promise, then the list of what is on this page ---------- */
+.page-head { padding-block: var(--page-top) var(--section-y-s); }
+.page-head-grid { display: grid; gap: var(--s-2xl); }
+.page-head-text { display: grid; gap: var(--s-xl); }
+.page-head-text h1 { max-width: 12ch; }
+.page-head-text .lead { max-width: var(--measure); }
+
+@media (min-width: 62.5em) {
+  .page-head-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: start; }
+  .page-head-text { grid-column: 1 / span 8; }
+  .page-head-text h1 { max-width: none; } /* two balanced lines on a laptop: "Free eye checks, / and help after" */
+  .on-page { grid-column: 9 / -1; padding-left: var(--s-xl); border-left: 1px solid var(--rule); }
+}
+
+/* ---------- 1. Van stops: heading, every stop, then the van to look for (beside the heading on a laptop) ---------- */
+.stops-grid {
+  display: grid; gap: var(--s-2xl);
+  grid-template-areas: "head" "list" "look";
+}
+.stops-head { grid-area: head; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); }
+.stops-head .lead { max-width: var(--measure); }
+.stops-grid .stops { grid-area: list; }
+.stops-grid .van-look { grid-area: look; }
+
+@media (min-width: 62.5em) {
+  .stops-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl);
+    grid-template-areas:
+      "head head head head head head head . look look look look"
+      "list list list list list list list list list list list list";
+    align-items: start;
+  }
+  /* the photo beside its caption, level with the heading */
+  .stops-grid .van-look { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: end; max-width: none; }
+}
+
+/* ---------- 2. The seven checks ---------- */
+.checks { display: grid; column-gap: var(--s-xl); border-bottom: 1px solid var(--rule); }
+.check { display: grid; gap: var(--s-2xs); padding-block: var(--s-lg); border-top: 1px solid var(--rule); align-content: start; }
+.check h3, .help-items h3 { font-family: var(--font-text); font-size: var(--t-lead); font-weight: 700; color: var(--ink); line-height: 1.3; }
+.check p { max-width: var(--measure); }
+.check-term { color: var(--muted); }
+@media (min-width: 45em) and (max-width: 62.4375em) {
+  /* two columns on a tablet, where the list has the full width to itself */
+  .checks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- 3. Glasses: heading above, the three programs across ---------- */
+.glasses-grid { display: grid; gap: var(--s-2xl); }
+.glasses-head { display: grid; gap: var(--s-md); }
+.glasses-head .lead { max-width: var(--measure); }
+.program { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xs); padding-block: var(--s-lg); border-top: 1px solid var(--rule); align-content: start; }
+.program p { max-width: var(--measure); }
+.program .link-line { font-weight: 400; }
+@media (min-width: 62.5em) {
+  .programs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--s-xl); }
+}
+
+/* ---------- 4. Insurance and rides ---------- */
+.help-body { display: grid; gap: var(--s-xl); align-content: start; }
+.help-items li { display: grid; gap: var(--s-2xs); padding-block: var(--s-lg); border-top: 1px solid var(--rule); }
+.help-items p { max-width: var(--measure); }
+/* the ask sits on a paper panel inside the tinted band, the same panel the rest of the site uses */
+.ask { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xs); justify-items: start; } /* padding: .panel-text */
+.ask-title { font-weight: 700; color: var(--ink); }
+.ask-email { font-size: var(--t-lead); }
+
+/* ---------- 5. Pamphlets: heading row like the stops, then the eight topics in two columns on a laptop ---------- */
+.learn-grid { display: grid; gap: var(--s-2xl); }
+.learn-head { display: grid; gap: var(--s-md); }
+.learn-head .lead { max-width: var(--measure); }
+.topics { display: grid; }
+.topics-col { border-bottom: 1px solid var(--rule); }
+@media (min-width: 62.5em) {
+  .learn-head { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: end; }
+  .learn-head h2 { grid-column: 1 / span 7; }
+  .learn-head .lead { grid-column: 8 / -1; }
+  /* each column stands alone, so opening a topic never leaves a gap beside it */
+  .topics { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-xl); align-items: start; }
+}
+@media (max-width: 62.4375em) {
+  .topics-col:first-child { border-bottom: 0; } /* one continuous list on phones and tablets */
+}
+.docs { display: grid; padding-bottom: var(--s-md); }
+.docs a { display: grid; gap: 0; min-height: 48px; padding-block: var(--s-xs); align-content: center; text-decoration: none; }
+.doc-title { text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; font-weight: 700; transition: text-decoration-thickness 150ms ease; }
+.doc-meta { color: var(--muted); }
+@media (hover: hover) and (pointer: fine) {
+  .docs a:hover .doc-title { text-decoration-thickness: 3px; }
+}
+
+/* ---------- 6. Questions: a short closing band ---------- */
+.questions-band { padding-block: var(--section-y-s); }
+.questions { display: grid; gap: var(--s-md); justify-items: start; }
+
+/* Motion here is Open only: a topic's guides fade in place when it opens (styles.css, "Disclosure list"). */
+
+/* ---------- Print: a shelter can print the stops, the checks and the help lines on paper ---------- */
+@media print {
+  .site-header nav, .site-header .menu, .lang, .skip, .on-page, .van-look, .stop-map, #learn, .site-footer nav { display: none !important; }
+  .section, .page-head { padding-block: var(--s-lg); }
+  .section-tint { background: none; }
+  .program .big-link::after { content: " (" attr(href) ")"; font-family: var(--font-text); font-size: var(--t-body); }
+  .stop, .check, .program, .help-items li { break-inside: avoid; }
+}

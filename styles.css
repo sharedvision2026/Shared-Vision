@@ -1,0 +1,485 @@
+/* =====================================================================================================
+   Shared Vision: the one system for all five pages (styles.css)
+   Shared by every page. A rule only one page needs goes in that page's css/<page>.css, built from the
+   tokens below; anything two pages need belongs here.
+
+   COMPONENTS NOTE (read this before building a page)
+
+   Page skeleton. Every page has, in this order: the head boilerplate (fonts, the two-line "js" script,
+   styles.css, then css/<page>.css), <a class="skip" href="#main">, <header class="site-header">,
+   <main id="main">, <footer class="site-footer">, then <script src="site.js"></script> at the end of body.
+   Copy the header and footer markup from index.html exactly. On your page: put aria-current="page" on your
+   own nav link (desktop nav, phone menu and footer); on Home the logo link carries it. Every other href stays
+   as written, except the Español links, which go to "es/pacientes.html" from For patients and to "es/" from
+   every other page (Spanish versions of Home and For patients live in es/). Donate goes to the Zeffy form, in the header (quiet, last) and footer.
+
+   Header: logo (Route A mark + wordmark) left; desktop nav from 62.5em (For patients, Bring the van, Impact,
+     About, Donate in muted text); Español link beside it from 35em, above it in a thin top line on phones;
+     a <details class="menu"> phone menu below 62.5em (site.js closes it on Escape, outside tap, focus leaving).
+     Each desktop .nav-link repeats its text in data-label, so the current page's bold link keeps the width it
+     has when not bold and the nav never shifts between pages. The menu control is always named "Menu" for a
+     screen reader (its visible "Close" is aria-hidden); the open state comes from <details> itself.
+   Footer: slate-deep. Home's footer opens with the Spanish draft block (.es, lang="es", id="es"); other pages
+     leave that block out. Then three columns on the page's 12-column grid (5 / 3 / 4 from 62.5em, two columns
+     from 45em): brand + one line; "Pages" (Home, the four pages, Español); "Get in touch" (email, Donate, and
+     Scheie in MOTION's own page, https://opticlab.med.upenn.edu/mobile-unit/). Add "Photos: Eric Sucar, Penn
+     Today" in .foot-credits on any page that shows those photos. In print it turns ink on paper.
+   Buttons: .btn is the gold pill (56px tall, ink edge): only for the page's main action, one per section,
+     never for a link that leaves the site. .btn-quiet is the outline pill (48px) for secondary controls,
+     such as "See all stops". Under 22.4375em a .btn in a narrow panel may take .btn-block (full width).
+     Donate is the one .btn that leaves the site (Impact's gold Donate button goes to the Zeffy form).
+   Links: always underlined; they thicken on hover (Underline). .big-link is the large display-face link for
+     section asks and for links that leave the site. A link that stands on its own line is .link-line (48px).
+     A link that opens a new tab says so in its visible text (", opens a new page").
+   Email addresses: every email link is <a class="email" href="mailto:..." aria-label="sharedvision2026@gmail.com">
+     sharedvision2026@<wbr>gmail.com</a>. It breaks only after the "@" (never inside "gmail.com"); the aria-label
+     keeps the spoken address whole (a <wbr> alone adds a space to it). Add .link-line or .big-link as the place needs.
+   Cards and panels: .panel is a paper box with a 1px hairline edge (so it still reads as a box where it runs off a
+     photo, and it shows in Windows high-contrast mode), 8px radius, no drop shadow. A panel that holds text adds
+     .panel-text for the one shared padding. Panels overlap a photo; text never sits on a photo. No card grids.
+   "Look for this van" (.van-look): the painted side of the van (van-mural crop) with its caption, so a patient
+     knows the van on the street. Home shows it after the stops on phones and tablets; For patients at every width.
+   Split section (.split > .split-head + one block): heading and lead in columns 1-5, the answers from column 7;
+     one column on phones. Disclosure list (details.topic > summary + .docs): a row with a drawn chevron and a count;
+     its contents fade in (Open). "On this page" list (nav.on-page): a ruled column on laptops, a wrapped row on phones.
+   Van stops (.stops): one <ol class="stops-list"> holding every confirmed stop, oldest first, each an
+     <li class="stop"> with <time datetime="YYYY-MM-DD"> inside an h3. site.js hides any stop whose date is
+     before the reader's local date (a stop stays listed through its own day), marks a stop that is today, and
+     shows .stops-empty when none are left. data-stops-limit="3" on the .stops box (Home) shows the next three
+     and adds a "See all stops" button; leave it off (For patients) to show every upcoming stop. Without
+     JavaScript every stop shows. Markup: copy one <li> from index.html; the data lives only in the HTML.
+   Steps (.steps > .step): a numbered sequence (numeral + h3 + one line). Use only for a real sequence.
+   Partner logos (.logos > figure.logo): the three grey marks at optically matched heights, each with its
+     name as a visible caption; the images carry alt="" because the caption names them.
+   Section rhythm: a page's first block starts var(--page-top) below the header (48 to 96px), on every page.
+     <section class="section"> gives the standard vertical space (64 to 128px);
+     .section-tint is the paper-2 band; .section-rule draws a hairline on top; .on-slate turns a block slate.
+     Light pages keep at most one slate band above the footer.
+   Type roles: .display is Archivo (regular weight, wide). Sizes, largest first: .t-hero (the promise, 44-96px),
+     .t-xl (section openers, 38-72), .t-l (panel headings, big numerals, 32-56), .t-m (sub-headings, dates,
+     24-32), .lead (22-24, text face), body 19. Nothing is ever set below 19px.
+   Motion (the agreed vocabulary, nothing else; all of it off under reduced motion):
+     Home, For patients, Bring the van: Press, Underline, Open, Page change.
+     About: those four, plus Rise and Unveil.
+     Impact: all of them, plus Draw (the 12-of-26 ring) and Fill (the condition bars).
+     Press = .btn and .btn-quiet scale to 0.97 while pressed. Underline = link underline thickens on hover.
+     Open = the phone menu and any disclosure fade in over 200ms. Page change = a 250ms crossfade between
+     pages (@view-transition), header held still. Rise = data-fade (fades in place) or data-rise (the gold
+     button rises 12px). Unveil = data-unveil on a photo's wrapper (a clip opens, the photo never slides).
+     Draw / Fill = data-draw on the block; its value names the child to measure (".meter", "ul").
+     Rise, Unveil, Draw and Fill need the two-line "js" script in <head> and site.js; without either, all
+     content simply shows.
+   ===================================================================================================== */
+
+/* ---------- Tokens: palette P2 "Philadelphia daylight" ---------- */
+:root {
+  --paper: #FAFCFE;          /* the light page */
+  --paper-2: #F3F6FA;        /* the tinted band */
+  --rule: #CBD6DF;           /* hairlines on light */
+  --ink: #152431;            /* headings on light, ink on gold */
+  --body: #1E2A35;           /* reading text on light */
+  --muted: #3A546A;          /* secondary text on light, 7.69:1 */
+  --link: #2A3D4C;           /* links on light, always underlined */
+  --slate: #1E2A35;          /* slate bands */
+  --slate-deep: #152431;     /* the footer */
+  --on-slate: #FAFCFE;       /* headings on slate */
+  --on-slate-body: #F3F6FA;  /* reading text on slate */
+  --on-slate-muted: #E6ECF2; /* secondary on slate, 12.27:1 */
+  --on-slate-link: #FFDC85;  /* links on slate, 11.01:1 */
+  --track: #3A546A;          /* rules on slate, the ring track (decorative) */
+  --gold: #FFCB36;           /* only on things you press, and on the proof */
+  --coral: #FF716D;          /* the wordmark, on slate only */
+
+  --font-display: "Archivo", Arial, sans-serif;
+  --font-text: "Atkinson Hyperlegible Next", Verdana, "Segoe UI", sans-serif;
+
+  /* type: one role scale, every step at least 1.25x the next (160 120 96 72 56 44 32 24 19 at 1440).
+     Display sizes are fluid in rem and reach their maximum by a 720px-wide window. Each floor is also
+     capped by the window width, so a reader who turns up the browser's text size never pushes a long
+     word past the side of a phone; reading text still grows with that setting. */
+  --t-stat:  clamp(min(4.5rem, 22.5vw), 0.1rem + 22vw, 10rem);      /* 72 -> 160: the "12 of 26" numeral */
+  --t-close: clamp(min(3rem, 15vw), -0.6rem + 18vw, 7.5rem);        /* 48 -> 120: a closing line */
+  --t-hero:  clamp(min(2.75rem, 13.75vw), 0.15rem + 13vw, 6rem);    /* 44 -> 96: the promise */
+  --t-h2-xl: clamp(min(2.375rem, 11.875vw), 0.675rem + 8.5vw, 4.5rem); /* 38 -> 72: section openers */
+  --t-h2:    clamp(min(2rem, 10vw), 0.8rem + 6vw, 3.5rem);          /* 32 -> 56: panel headings, numerals */
+  --t-quote: clamp(min(1.625rem, 8.125vw), 0.725rem + 4.5vw, 2.75rem); /* 26 -> 44: quoted words */
+  --t-h3:    clamp(min(1.5rem, 7.5vw), 1.1rem + 2vw, 2rem);         /* 24 -> 32: sub-headings, dates, big links */
+  --t-lead:  clamp(1.375rem, 1.275rem + 0.5vw, 1.5rem);             /* 22 -> 24: lead text and list titles */
+  --t-body:  1.1875rem;                                             /* 19, the floor for every line of text */
+
+  --track-display: -0.025em;   /* the big moments */
+  --track-display-s: -0.012em; /* display face at 24-36px, where tight tracking starts to crowd */
+
+  /* space: 4pt scale, named by role */
+  --s-2xs: 0.25rem; --s-xs: 0.5rem; --s-sm: 0.75rem; --s-md: 1rem; --s-lg: 1.5rem;
+  --s-xl: 2rem; --s-2xl: 3rem; --s-3xl: 4rem; --s-4xl: 6rem; --s-5xl: 8rem; --s-6xl: 10rem;
+  --section-y: clamp(var(--s-3xl), 8vw, var(--s-5xl));   /* 64 -> 128: the space above and below a section */
+  --section-y-s: clamp(var(--s-2xl), 6vw, var(--s-3xl)); /* 48 -> 64: a short band */
+  --page-top: clamp(var(--s-2xl), 6vw, var(--s-4xl));    /* 48 -> 96: header to a page's title, the same on every page */
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --content: 86rem;
+  --measure: 34rem;          /* the longest reading line, about 65 characters at 19px */
+  --measure-s: 24rem;        /* short lines: captions, card text */
+  --radius: 8px;
+  --lift: 0 1.5rem 3rem -1.5rem rgba(21, 36, 49, 0.32), 0 0.25rem 0.75rem rgba(21, 36, 49, 0.08); /* the phone menu only */
+
+  /* motion: one curve for arriving, one for moving while on screen */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--body);
+  font-family: var(--font-text);
+  font-size: var(--t-body);
+  font-size-adjust: 0.5; /* Atkinson Hyperlegible Next measures 0.50: 19px gives a 9.5px lowercase, and a fallback face is matched to it */
+  line-height: 1.55;
+  font-kerning: normal;
+}
+img, svg, picture { display: block; max-width: 100%; }
+h1, h2, h3, p, ul, ol, dl, dd, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+button { font: inherit; }
+[hidden] { display: none !important; } /* a component's own display rule must never un-hide what the script hid */
+
+.nowrap { white-space: nowrap; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ---------- Type roles ---------- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 450;
+  font-stretch: 112%;
+  letter-spacing: var(--track-display);
+  font-size-adjust: none;
+  color: var(--ink);
+  overflow-wrap: break-word; /* last resort at very large text sizes: a word may break before it runs off the screen */
+}
+.t-hero { font-size: var(--t-hero); line-height: 0.98; }
+.t-xl { font-size: var(--t-h2-xl); line-height: 1; }
+.t-l { font-size: var(--t-h2); line-height: 1.05; }
+.t-m { font-size: var(--t-h3); line-height: 1.15; letter-spacing: var(--track-display-s); }
+.lead { font-size: var(--t-lead); line-height: 1.5; color: var(--body); }
+/* every number is set at one width, so the same digits keep one shape across the site */
+.num { font-stretch: 100%; font-variant-numeric: lining-nums; }
+
+/* ---------- Links and focus ---------- */
+a { color: var(--link); text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+/* Email addresses (.email, markup in the components note): the <wbr> after the "@" is the only place the address
+   breaks at normal text sizes; a part breaks inside only when it alone is wider than the line (very large text
+   on a narrow phone), which beats running off the screen. */
+a[href^="mailto:"], .email { overflow-wrap: anywhere; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+.on-slate :focus-visible, .site-footer :focus-visible { outline-color: var(--gold); }
+
+.skip {
+  position: absolute; left: var(--s-md); top: var(--s-md); z-index: 50;
+  padding: var(--s-sm) var(--s-lg);
+  background: var(--gold); color: var(--ink); font-weight: 700;
+  border: 2px solid var(--ink); border-radius: var(--radius);
+  transform: translateY(-200%);
+}
+.skip:focus { transform: none; }
+
+/* a link that stands on its own line gets a 48px target */
+.link-line { display: inline-flex; align-items: center; min-height: 48px; font-weight: 700; justify-self: start; }
+
+/* ---------- Frame: a content column with room to bleed to either edge ---------- */
+.frame {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(var(--gutter), 1fr)
+    [content-start] minmax(0, var(--content))
+    [content-end] minmax(var(--gutter), 1fr) [full-end];
+}
+.frame > * { grid-column: content; }
+/* A one-column grid's column may shrink below its longest word, so large browser text never widens the page:
+   every shared one-column grid below sets grid-template-columns: minmax(0, 1fr), and page grids do the same. */
+.wrap { width: min(100% - 2 * var(--gutter), var(--content)); margin-inline: auto; }
+
+/* ---------- Section rhythm ---------- */
+.section { padding-block: var(--section-y); }
+.section-tint { background: var(--paper-2); }
+.section-rule { border-top: 1px solid var(--rule); }
+.on-slate { background: var(--slate); color: var(--on-slate-body); line-height: 1.6; }
+.on-slate .display { color: var(--on-slate); }
+.on-slate a:not(.btn) { color: var(--on-slate-link); }
+
+/* ---------- Buttons ---------- */
+.btn, .btn-quiet {
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 2px solid var(--ink); border-radius: 999px;
+  font-family: var(--font-text); font-size: var(--t-body); font-weight: 700; line-height: 1.2;
+  text-decoration: none; text-align: center; cursor: pointer;
+}
+.btn { min-height: 56px; padding: var(--s-sm) var(--s-xl); background: var(--gold); color: var(--ink); }
+.btn-quiet { min-height: 48px; padding: var(--s-xs) var(--s-lg); background: transparent; color: var(--ink); }
+.on-slate .btn { border-color: var(--gold); }
+@media (max-width: 22.4375em) {
+  .btn-block { width: 100%; padding-inline: var(--s-md); }
+}
+
+.big-link {
+  display: inline-flex; align-items: center; min-height: 48px;
+  font-family: var(--font-display); font-weight: 450; font-stretch: 112%;
+  letter-spacing: var(--track-display-s); font-size: var(--t-h3); line-height: 1.15; text-wrap: balance;
+  text-decoration-thickness: 2px; text-underline-offset: 0.16em;
+}
+
+/* ---------- Panels ---------- */
+.panel {
+  background: var(--paper); color: var(--body);
+  border: 1px solid var(--rule); /* a hairline edge: the panel still reads as a box where it runs off its photo */
+  border-radius: var(--radius);
+}
+.panel-text { padding: var(--s-xl) var(--s-xl) var(--s-lg); } /* the one padding for a panel that holds text */
+@media (max-width: 22.4375em) {
+  .panel-text { padding-inline: var(--s-md); } /* a 320px phone keeps its reading line */
+}
+
+/* ---------- "Look for this van": the painted side of the van, so a patient knows it on the street ---------- */
+.van-look { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); align-content: start; max-width: 18rem; } /* 288px: big enough to know the mural, the whole width of a 320px phone */
+.van-look img { width: 100%; height: auto; border-radius: var(--radius); background: var(--paper-2); }
+.van-look figcaption { color: var(--body); }
+.van-look strong { color: var(--ink); }
+
+/* ---------- Header ---------- */
+.site-header { position: relative; z-index: 10; }
+.topline { border-bottom: 1px solid var(--rule); }
+.topline-inner { display: flex; justify-content: flex-end; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-xs) var(--s-md); min-height: 5rem; padding-block: var(--s-xs); }
+.brand { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--s-xs) var(--s-sm); min-height: 48px; color: var(--ink); text-decoration: none; margin-right: auto; }
+.brand .mark { width: 3rem; height: auto; flex-shrink: 0; }
+.wordmark { font-family: var(--font-text); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.005em; line-height: 1; white-space: nowrap; }
+.nav-link, .lang {
+  display: inline-flex; align-items: center; min-height: 48px; padding-inline: var(--s-sm);
+  color: var(--link); font-size: var(--t-body);
+}
+.nav-link[aria-current="page"] { color: var(--ink); font-weight: 700; text-decoration-thickness: 3px; }
+/* every nav link is as wide as its bold self, so the current page's link never pushes the others sideways */
+.nav-link { flex-direction: column; justify-content: center; align-items: flex-start; }
+.nav-link::after { content: attr(data-label); font-weight: 700; height: 0; overflow: hidden; visibility: hidden; }
+.nav-desktop { display: none; }
+.nav-desktop ul { display: flex; flex-wrap: wrap; gap: var(--s-2xs); }
+.lang-wide { display: none; }
+
+.menu summary {
+  display: inline-flex; align-items: center; gap: var(--s-xs);
+  min-height: 48px; padding: 0 var(--s-md);
+  border: 2px solid var(--ink); border-radius: 999px;
+  color: var(--ink); font-weight: 700; cursor: pointer; list-style: none;
+}
+.menu summary::-webkit-details-marker { display: none; }
+.menu summary svg { width: 1.125rem; height: 1.125rem; flex-shrink: 0; }
+.menu .when-open { display: none; }
+.menu[open] .when-open { display: inline; }
+.menu[open] .when-closed { display: none; }
+.menu-panel a[aria-current="page"] { color: var(--ink); font-weight: 700; text-decoration-thickness: 3px; }
+.menu-panel {
+  position: absolute; left: 0; right: 0; top: 100%;
+  background: var(--paper); border-block: 1px solid var(--rule);
+  box-shadow: var(--lift);
+  padding: var(--s-md) var(--gutter) var(--s-xl);
+}
+.menu-panel ul { display: grid; gap: var(--s-2xs); }
+.menu-panel a { display: flex; align-items: center; min-height: 52px; font-size: var(--t-lead); }
+.menu-panel .menu-quiet { margin-top: var(--s-sm); padding-top: var(--s-sm); border-top: 1px solid var(--rule); }
+
+@media (min-width: 35em) {
+  .topline { display: none; }
+  .lang-wide { display: inline-flex; }
+}
+@media (min-width: 62.5em) {
+  .menu { display: none; }
+  .nav-desktop { display: block; }
+  .bar { gap: var(--s-lg); }
+  .nav-quiet { color: var(--muted); }
+}
+@media (max-width: 22.4375em) {
+  .menu summary svg { display: none; } /* the word "Menu" alone, so logo and Menu share one row at 320px */
+  .brand .mark { width: 2.5rem; }
+  .wordmark { font-size: 1.1875rem; }
+  .menu summary { padding: 0 var(--s-sm); }
+}
+
+/* ---------- Van stops ---------- */
+.stops { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-lg); justify-items: start; }
+.stops-list { width: 100%; border-bottom: 1px solid var(--rule); }
+.stop {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xs) var(--s-xl);
+  padding-block: var(--s-lg); border-top: 1px solid var(--rule);
+}
+.stop-when, .stop-where { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xs); align-content: start; }
+.stop-date { font-size: var(--t-h3); line-height: 1.15; letter-spacing: var(--track-display-s); }
+.stop-time { font-weight: 700; color: var(--ink); }
+.stop-place { font-size: var(--t-lead); font-weight: 700; color: var(--ink); line-height: 1.3; }
+.stop-map { display: inline-flex; align-items: center; min-height: 48px; justify-self: start; align-self: start; }
+.stop-map b { font-weight: 700; }
+.stop-today {
+  justify-self: start; padding: 0 var(--s-sm); border: 2px solid var(--ink); border-radius: 999px;
+  font-weight: 700; color: var(--ink); line-height: 1.5;
+}
+.stops-empty { font-size: var(--t-lead); color: var(--ink); max-width: var(--measure); }
+.stops-check { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; max-width: var(--measure); }
+@media (min-width: 50em) {
+  /* one row per stop: when, where, map */
+  .stop { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) auto; align-items: start; }
+  .stop-map { justify-self: end; }
+}
+
+/* ---------- Steps ---------- */
+.steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xl); }
+.step { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: var(--s-md); }
+.step > div { overflow-wrap: break-word; }
+.step-num { font-size: var(--t-h2); line-height: 0.9; color: var(--muted); font-stretch: 100%; font-variant-numeric: lining-nums; }
+.step h3 { font-family: var(--font-text); font-size: var(--t-lead); font-weight: 700; color: var(--ink); line-height: 1.3; }
+.step p { margin-top: var(--s-2xs); max-width: var(--measure); }
+@media (min-width: 45em) {
+  .step { grid-template-columns: 5rem minmax(0, 1fr); }
+}
+
+/* ---------- Partner logos ---------- */
+.logos { display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start; gap: var(--s-2xl) var(--s-4xl); }
+/* every mark sits on one line, whatever its caption's length: a fixed first row, the mark at its foot */
+.logo { display: grid; grid-template-rows: 3.5rem auto; justify-items: start; gap: var(--s-sm); }
+.logo img { align-self: end; width: auto; max-width: 100%; object-fit: contain; }
+.logo figcaption { color: var(--muted); max-width: 14rem; line-height: 1.35; }
+/* heights matched by eye, not by box: a tall emblem needs more height than a wide wordmark to look the same size */
+.logo-chosen300 { height: 3rem; }      /* 48px, 349x129 source (its small lettering needs the extra height) */
+.logo-commonplace { height: 3.5rem; }  /* 56px, vector */
+.logo-bethesda { height: 2.5rem; }     /* 40px, 543x149 source */
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--slate-deep); color: var(--on-slate-body); padding-block: var(--s-3xl) var(--s-2xl); line-height: 1.6; }
+.site-footer a { color: var(--on-slate-link); }
+.foot-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xl); }
+.foot-brand { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--s-xs) var(--s-sm); min-height: 48px; color: var(--on-slate); text-decoration: none; }
+.site-footer .foot-brand { color: var(--on-slate); }
+.foot-brand .mark { width: 4rem; flex-shrink: 0; }
+.foot-brand .wordmark { color: var(--coral); font-size: min(1.75rem, 9vw); white-space: normal; }
+.foot-line { margin-top: var(--s-md); max-width: var(--measure-s); }
+.foot-grid h2 { font-size: var(--t-body); font-weight: 700; color: var(--on-slate); margin-bottom: var(--s-xs); }
+.foot-grid li a { display: inline-flex; align-items: center; min-height: 48px; }
+.foot-credits { margin-top: var(--s-2xl); padding-top: var(--s-lg); border-top: 1px solid var(--track); display: grid; gap: var(--s-xs); color: var(--on-slate-muted); }
+/* the Spanish draft: a short version of Home for Spanish-speaking patients, reached from every "Español" link */
+@media (min-width: 45em) {
+  .foot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-xl); row-gap: var(--s-2xl); }
+}
+@media (min-width: 62.5em) {
+  /* on the page's own 12 columns, so the link columns start on column lines 6 and 9 */
+  .foot-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .foot-grid > :nth-child(1) { grid-column: 1 / span 5; }
+  .foot-grid > :nth-child(2) { grid-column: 6 / span 3; }
+  .foot-grid > :nth-child(3) { grid-column: 9 / span 4; }
+}
+
+/* ---------- Split section: heading left, the answers right (one column on phones) ---------- */
+.split { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-2xl); }
+.split-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); align-content: start; }
+.split-head .lead { max-width: var(--measure); }
+@media (min-width: 62.5em) {
+  .split { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s-xl); }
+  .split-head { grid-column: 1 / span 5; }
+  .split > :not(.split-head) { grid-column: 7 / -1; }
+  .split-head h2 { max-width: 12ch; }
+}
+
+/* ---------- "On this page": a jump list, a wrapped row on phones, a ruled column on laptops ---------- */
+.on-page { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xs); align-content: start; }
+.on-page-title { font-size: var(--t-body); font-weight: 700; color: var(--muted); }
+.on-page ul { display: flex; flex-wrap: wrap; gap: 0 var(--s-lg); }
+.on-page a { display: inline-flex; align-items: center; min-height: 48px; font-size: var(--t-lead); }
+@media (min-width: 62.5em) {
+  .on-page ul { display: grid; gap: 0; }
+}
+
+/* ---------- Disclosure list (details.topic): a row with a count and a drawn chevron; contents fade in (Open) ---------- */
+.topic { border-top: 1px solid var(--rule); }
+.topic summary {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2xs) var(--s-md);
+  min-height: 3.5rem; padding-block: var(--s-sm); padding-right: var(--s-2xl);
+  position: relative; cursor: pointer; list-style: none;
+}
+.topic summary:active { background: var(--paper-2); } /* instant press feedback on a full-width row, no movement */
+.topic summary::-webkit-details-marker { display: none; }
+/* a chevron drawn from two borders: points down when closed, up when open (sized in em to follow the text) */
+.topic summary::after {
+  content: ""; position: absolute; right: var(--s-sm); top: 50%;
+  width: 0.6em; height: 0.6em; margin-top: -0.45em;
+  border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+  transform: rotate(45deg);
+}
+.topic[open] summary::after { margin-top: -0.1em; transform: rotate(-135deg); }
+.topic-name { min-width: 0; font-size: var(--t-lead); font-weight: 700; color: var(--ink); line-height: 1.3; overflow-wrap: break-word; }
+.topic-count { color: var(--muted); }
+@media (hover: hover) and (pointer: fine) {
+  /* the row answers a pointer the way every link on the site does: its name gets an underline */
+  .topic summary:hover .topic-name { text-decoration-line: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
+}
+
+/* ---------- Motion (the agreed vocabulary; see the components note for which page may use which) ---------- */
+
+/* Press and Underline: hover only on a real pointer; pressing works everywhere */
+.btn, .btn-quiet { transition: box-shadow 150ms ease, transform 150ms var(--ease-out); }
+a:not(.btn) { transition: text-decoration-thickness 150ms ease, color 150ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  /* hover keeps the full-contrast gold and thickens the edge, so a button gets stronger, never fainter */
+  .btn:hover, .btn-quiet:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+  .on-slate .btn:hover { box-shadow: inset 0 0 0 1px var(--gold), 0 0 0 1px var(--gold); }
+  a:not(.btn):hover { text-decoration-thickness: 3px; }
+  a.big-link:hover { text-decoration-thickness: 4px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn:active, .btn-quiet:active { transform: scale(0.97); }
+  .menu summary { transition: transform 150ms var(--ease-out); }
+  .menu summary:active { transform: scale(0.97); }
+
+  /* Open: the phone menu drops 8px and fades in; a disclosed list fades in place (text never moves) */
+  .menu[open] .menu-panel { transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
+  @starting-style { .menu[open] .menu-panel { opacity: 0; transform: translateY(-8px); } }
+  .stop.is-new { transition: opacity 200ms var(--ease-out); }
+  @starting-style { .stop.is-new { opacity: 0; } }
+  .topic[open] > :not(summary) { animation: sv-open 200ms var(--ease-out); }
+  @keyframes sv-open { from { opacity: 0; } }
+  /* the chevron turns with the same timing, so the two halves of the change arrive together */
+  .topic summary::after { transition: transform 200ms var(--ease-out), margin-top 200ms var(--ease-out); }
+
+  /* Page change: a 250ms crossfade between pages; the header keeps its place */
+  @view-transition { navigation: auto; }
+  .site-header { view-transition-name: site-header; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 250ms; animation-timing-function: ease; }
+
+  /* Rise (About and Impact only), strict reading: text fades in place once; only the gold button travels 12px.
+     Each element reveals itself when it reaches the reader's view (site.js sets --i only among items that
+     arrive together), so the motion plays where people are looking. */
+  .js [data-fade] { opacity: 0; transition: opacity 450ms var(--ease-out); transition-delay: calc(var(--i, 0) * 75ms); }
+  .js [data-rise] { opacity: 0; transform: translateY(12px); transition: opacity 450ms var(--ease-out), transform 450ms var(--ease-out); transition-delay: calc(var(--i, 0) * 75ms); }
+  .js [data-fade].is-in, .js [data-rise].is-in { opacity: 1; transform: none; }
+  /* a keyboard user who tabs into a section that has not arrived yet sees it at once */
+  .js [data-fade]:focus-within, .js [data-fade]:focus, .js [data-rise]:focus { opacity: 1; transform: none; transition: none; }
+  /* Unveil (About and Impact only): photos open like a blind, the picture itself never slides */
+  .js [data-unveil] img { clip-path: inset(0 0 100% 0); transition: clip-path 700ms var(--ease-in-out); }
+  .js [data-unveil].is-in img { clip-path: inset(0 0 0 0); }
+  /* Draw (Impact only, the signature): 12 of 26, once, at an even pace so the twelve gold segments fill one by one */
+  .js [data-draw] .meter-arc { stroke-dashoffset: var(--arc, 12); } /* --arc: the arc's length, from the page's data block */
+  .js [data-draw].is-drawn .meter-arc { stroke-dashoffset: 0; transition: stroke-dashoffset 1400ms cubic-bezier(0.45, 0, 0.4, 1); }
+  /* Fill (Impact only): condition bars grow from the left, one after another; a clip keeps their rounded ends true */
+  .js [data-draw] .c-bar { clip-path: inset(0 100% 0 0 round 4px); }
+  .js [data-draw].is-drawn .c-bar { clip-path: inset(0 0 0 0 round 4px); transition: clip-path 500ms var(--ease-out); transition-delay: calc(200ms + var(--k, 0) * 60ms); }
+}
+
+/* ---------- Print: slate bands keep their slate; the footer turns ink on paper (a browser drops its dark background) ---------- */
+@media print {
+  .on-slate { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .site-footer { background: none; color: var(--body); border-top: 1px solid var(--rule); }
+  .site-footer a, .site-footer .foot-brand, .foot-grid h2, .foot-brand .wordmark { color: var(--ink); }
+  .foot-credits { color: var(--body); border-color: var(--rule); }
+}
