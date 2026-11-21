@@ -32,6 +32,7 @@
   grid-template-areas: "head" "list" "look";
 }
 .stops-head { grid-area: head; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); }
+.stops-head { margin-bottom: calc(var(--s-lg) - var(--s-2xl)); } /* 24px above the first stop, so the heading reads with its list */
 .stops-head .lead { max-width: var(--measure); }
 .stops-grid .stops { grid-area: list; }
 .stops-grid .van-look { grid-area: look; }
@@ -44,6 +45,7 @@
       "list list list list list list list list list list list list";
     align-items: start;
   }
+  .stops-head { align-self: end; } /* level with the photo's bottom edge, just above the first stop */
 }
 
 /* ---------- 2. The seven checks ---------- */
