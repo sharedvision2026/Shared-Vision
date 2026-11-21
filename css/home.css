@@ -8,8 +8,7 @@
 .hero-title { max-width: 11ch; }
 .hero-side { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xl); justify-items: start; max-width: var(--measure); }
 
-/* Phones and tablets: no photo here, so the van stops follow the promise at once; the van's painted side
-   follows the stops instead (.home-van-look). Fix round 3: the photo pushed the first stop to the third
+/* Phones and tablets: no photo here, so the van stops follow the promise at once. Fix round 3: the photo pushed the first stop to the third
    phone screen, and every narrow crop of it cut the van's lettering to "...rhoods". */
 .hero-stage { display: none; }
 
@@ -27,14 +26,6 @@
   .hero-photo { position: relative; }
   .hero-photo img { width: 100%; height: clamp(30rem, 48vw, 46rem); object-fit: cover; object-position: 50% 0%; border-radius: var(--radius) 0 0 var(--radius); background: var(--paper-2); }
 
-  /* "Look for this van": wayfinding on the photo. Depth comes from the overlap itself, never from a shadow. */
-  .van-card {
-    position: absolute; z-index: 2;
-    left: 4cqw; top: 16cqw; width: 30cqw; min-height: 14.2cqw;
-    display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-xs); align-content: start;
-  }
-  .van-card .display { color: var(--ink); }
-  .home-van-look { display: none; } /* the hero photo does this job from 900px */
 }
 
 /* ---------- 2. Van stops: a timetable board, heading above, rows across the full width ---------- */

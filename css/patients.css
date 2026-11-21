@@ -26,7 +26,7 @@
   .on-page { grid-column: 9 / -1; padding-left: var(--s-xl); border-left: 1px solid var(--rule); }
 }
 
-/* ---------- 1. Van stops: heading, every stop, then the van to look for (beside the heading on a laptop) ---------- */
+/* ---------- 1. Van stops: heading, every stop, then the founders' photo (beside the heading on a laptop) ---------- */
 .stops-grid {
   display: grid; gap: var(--s-2xl);
   grid-template-areas: "head" "list" "look";
@@ -44,8 +44,6 @@
       "list list list list list list list list list list list list";
     align-items: start;
   }
-  /* the photo beside its caption, level with the heading */
-  .stops-grid .van-look { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: end; max-width: none; }
 }
 
 /* ---------- 2. The seven checks ---------- */

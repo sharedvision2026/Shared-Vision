@@ -244,7 +244,7 @@ a[href^="mailto:"], .email { overflow-wrap: anywhere; }
   .panel-text { padding-inline: var(--s-md); } /* a 320px phone keeps its reading line */
 }
 
-/* ---------- "Look for this van": the painted side of the van, so a patient knows it on the street ---------- */
+/* ---------- .van-look: the photo beside the van stops on For patients ---------- */
 .van-look { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); align-content: start; max-width: 18rem; } /* 288px: big enough to know the mural, the whole width of a 320px phone */
 .van-look img { width: 100%; height: auto; border-radius: var(--radius); background: var(--paper-2); }
 .van-look figcaption { color: var(--body); }
