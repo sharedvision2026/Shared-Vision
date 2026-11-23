@@ -75,8 +75,9 @@
      the stops and numbers written in the HTML stay. The last answer is kept in this browser so a repeat visit
      shows it at once. Leave LIVE_URL empty to turn this off. */
   var LIVE_URL = 'https://script.google.com/macros/s/AKfycbzH2zplFdmSaIijZ-pC-fBbar8Mi_4bIsyC2mVhSsLeQloRsnwbz1J4A0Tl6OSSQoCE/exec';
-  /* "followUp" counts the cases in the sheet's "Conditions for follow-up" column (how the Impact page has always
-     counted); "scheduled" counts the "Patients scheduled for follow-up" column instead. */
+  /* "followUp" counts the cases in the sheet's "Conditions for follow-up" column, so one person with two conditions
+     counts twice (the team's choice, and the Impact caption says "follow-up needs"); "scheduled" would count the
+     "Patients scheduled for follow-up" column instead. */
   var FOLLOW_UP_FIELD = 'followUp';
 
   var DAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -161,27 +162,15 @@
   var conditionLabel = function (name) {
     return CONDITIONS[name] || CONDITIONS[name.replace(/s$/, '')] || [name.charAt(0).toUpperCase() + name.slice(1), ''];
   };
-  var headline = function (n, of) {
-    var r = of ? n / of : 0;
-    if (r >= 0.9) return 'Almost everyone needed more care.';
-    if (r >= 0.7) return 'Most needed more care.';
-    if (r > 0.55) return 'More than half needed more care.';
-    if (r >= 0.45) return 'About half needed more care.';
-    if (r >= 0.38) return 'Nearly half needed more care.';
-    if (r >= 0.3) return 'About 1 in 3 needed more care.';
-    return 'Some needed more care.';
-  };
-
   var drawImpact = function (d) {
     var block = document.querySelector('[data-live-impact]');
     if (!block || !d || !(d.screened > 0)) return;
-    var n = Math.min(d[FOLLOW_UP_FIELD] || 0, d.screened), of = d.screened;
+    var n = d[FOLLOW_UP_FIELD] || 0, of = d.screened;
     var set = function (key, text) {
       toArray(block.querySelectorAll('[data-live="' + key + '"]')).forEach(function (e) { e.textContent = text; });
     };
     var meter = block.querySelector('.meter-block');
-    if (meter) { meter.style.setProperty('--n', n); meter.style.setProperty('--of', of); }
-    set('headline', headline(n, of));
+    if (meter) { meter.style.setProperty('--n', Math.min(n, of)); meter.style.setProperty('--of', of); }
     set('followup', String(n));
     set('screened', String(of));
     set('glasses', String(d.glasses || 0));
