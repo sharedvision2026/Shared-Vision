@@ -88,14 +88,18 @@
   </section>
 
   <!-- 2. The proof, on slate. -->
-  <section class="on-slate proof" id="proof" aria-labelledby="proof-title">
+  <section class="on-slate proof" id="proof" aria-labelledby="proof-title" data-live-impact>
     <div class="wrap proof-grid">
-      <h2 id="proof-title" class="display proof-title">Nearly half needed more care.</h2>
+      <h2 id="proof-title" class="display proof-title" data-live="headline">More than half needed more care.</h2>
 
       <!-- =====================================================================================================
            THE NUMBERS: the only place they live on this page. Change them here and nowhere else.
            Totals only, never counts for one event (small counts at a named event could identify a person).
-           Source: Shared Vision Metrics, tab "Events", export of 2026-10-30 (shared-vision/data/).
+           Source: Shared Vision Metrics, tab "Events", read on 2026-11-23.
+           LIVE: with LIVE_URL set in site.js, these numbers are redrawn from the sheet each time the page
+           opens (see apps-script/README.md). What is written here is what shows with JavaScript off or before
+           the sheet answers, so keep it close to the sheet. The heading is picked from the share that needed
+           follow-up ("More than half", "Nearly half" and so on; see headline() in site.js).
            Each number is written twice on its own line: once as the text people read, once as a style value
            that draws the ring or a bar. Change both.
              --n  on .meter-block : people who needed follow-up care (the gold "12")
@@ -104,29 +108,29 @@
              --n  on each condition row : that row's count; --k is only the row's place in the fill order
            Never show: insurance sign-ups and SEPTA passes (N/A in the sheet), follow-up attendance (TBD).
            ===================================================================================================== -->
-      <div class="meter-block" style="--n: 12; --of: 26" data-draw=".meter">
+      <div class="meter-block" style="--n: 24; --of: 39" data-draw=".meter">
         <svg class="meter" viewBox="0 0 160 160" aria-hidden="true" focusable="false">
           <circle class="meter-track" cx="80" cy="80" r="56" pathLength="1" transform="rotate(-90 80 80)"/>
           <circle class="meter-arc" cx="80" cy="80" r="56" pathLength="1" transform="rotate(-90 80 80)"/>
           <circle class="meter-gaps" cx="80" cy="80" r="56" pathLength="1" transform="rotate(-90 80 80)"/>
         </svg>
         <p class="meter-figure">
-          <span class="n display num"><span class="gold">12</span> of 26</span>
+          <span class="n display num"><span class="gold" data-live="followup">24</span> of <span data-live="screened">39</span></span>
           <span class="cap">people we screened at community health fairs since September 2026 needed <span class="nowrap">follow-up</span> care.</span>
         </p>
       </div>
 
       <dl class="tally">
-        <div><dt>Pairs of reading glasses given out</dt><dd class="display num">11</dd></div>
-        <div><dt>Pamphlets given out</dt><dd class="display num">15</dd></div>
+        <div><dt>Pairs of reading glasses given out</dt><dd class="display num" data-live="glasses">18</dd></div>
+        <div><dt>Pamphlets given out</dt><dd class="display num" data-live="pamphlets">15</dd></div>
       </dl>
 
       <div class="conditions" data-draw="ul">
         <h3 class="display">Follow-up care for cataracts, glaucoma and more</h3>
-        <ul role="list" style="--max: 4">
-          <li style="--n: 4; --k: 0"><span class="c-name">Comprehensive exam<span>A full eye exam</span></span><span class="c-bar" aria-hidden="true"></span><span class="c-num display num">4<span class="sr-only"> people</span></span></li>
-          <li style="--n: 3; --k: 1"><span class="c-name">Cataract<span>Clouding of the lens</span></span><span class="c-bar" aria-hidden="true"></span><span class="c-num display num">3<span class="sr-only"> people</span></span></li>
-          <li style="--n: 2; --k: 2"><span class="c-name">Glaucoma<span>A disease of the optic nerve</span></span><span class="c-bar" aria-hidden="true"></span><span class="c-num display num">2<span class="sr-only"> people</span></span></li>
+        <ul role="list" style="--max: 14">
+          <li style="--n: 14; --k: 0"><span class="c-name">Comprehensive exam<span>A full eye exam</span></span><span class="c-bar" aria-hidden="true"></span><span class="c-num display num">14<span class="sr-only"> people</span></span></li>
+          <li style="--n: 4; --k: 1"><span class="c-name">Glaucoma<span>A disease of the optic nerve</span></span><span class="c-bar" aria-hidden="true"></span><span class="c-num display num">4<span class="sr-only"> people</span></span></li>
+          <li style="--n: 3; --k: 2"><span class="c-name">Cataract<span>Clouding of the lens</span></span><span class="c-bar" aria-hidden="true"></span><span class="c-num display num">3<span class="sr-only"> people</span></span></li>
           <li style="--n: 2; --k: 3"><span class="c-name">High myopia<span>Very nearsighted</span></span><span class="c-bar" aria-hidden="true"></span><span class="c-num display num">2<span class="sr-only"> people</span></span></li>
           <li style="--n: 1; --k: 4"><span class="c-name">Keratoconus or severe astigmatism<span>A cornea that bends light unevenly</span></span><span class="c-bar" aria-hidden="true"></span><span class="c-num display num">1<span class="sr-only"> person</span></span></li>
         </ul>
