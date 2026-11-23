@@ -74,7 +74,7 @@
      answers, the van stops and the Impact numbers are redrawn from it; until then, or if it never answers,
      the stops and numbers written in the HTML stay. The last answer is kept in this browser so a repeat visit
      shows it at once. Leave LIVE_URL empty to turn this off. */
-  var LIVE_URL = '';
+  var LIVE_URL = 'https://script.google.com/macros/s/AKfycbzH2zplFdmSaIijZ-pC-fBbar8Mi_4bIsyC2mVhSsLeQloRsnwbz1J4A0Tl6OSSQoCE/exec';
   /* "followUp" counts the cases in the sheet's "Conditions for follow-up" column (how the Impact page has always
      counted); "scheduled" counts the "Patients scheduled for follow-up" column instead. */
   var FOLLOW_UP_FIELD = 'followUp';
