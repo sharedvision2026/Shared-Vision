@@ -4,7 +4,7 @@ All things for the Shared Vision Health Outreach website, debuting in 2026.
 
 The website for Shared Vision: free eye screenings at the Scheie in MOTION van for people in Philadelphia, and help with glasses, insurance and rides afterward.
 
-Five pages in English (Home, For patients, Bring the van, Impact, About) and Spanish versions of Home and For patients.
+Five pages in English (Home, For patients, For organizations, Impact, About) and Spanish versions of Home and For patients.
 
 ## How to make a change with Claude
 
@@ -37,4 +37,4 @@ Nothing reaches the live site until it is merged into `main`.
 
 ## Files at a glance
 
-`index.html` Home · `patients.html` For patients · `organizations.html` Bring the van · `impact.html` Impact · `about.html` About · `es/` Spanish pages · `styles.css` shared design · `css/` page layouts · `site.js` van stop list and menu · `img/` photos · `docs/` eye-health PDFs.
+`index.html` Home · `patients.html` For patients · `organizations.html` For organizations · `impact.html` Impact · `about.html` About · `es/` Spanish pages · `styles.css` shared design · `css/` page layouts · `site.js` van stop list and menu · `img/` photos · `docs/` eye-health PDFs.

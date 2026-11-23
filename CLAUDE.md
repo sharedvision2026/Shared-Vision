@@ -10,7 +10,7 @@ A plain static site: HTML, CSS and a little JavaScript. No framework, no build s
 |---|---|
 | `index.html` | Home |
 | `patients.html` | For patients (van stops, the seven eye checks, glasses, insurance and rides, eye guides) |
-| `organizations.html` | Bring the van (for shelters and programs) |
+| `organizations.html` | For organizations (for shelters and programs) |
 | `impact.html` | Impact (the giving page, the numbers, Donate) |
 | `about.html` | About (founders, mission, partners with a Google map, thank-you) |
 | `es/index.html`, `es/pacientes.html` | Spanish versions of Home and For patients |

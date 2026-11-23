@@ -13,7 +13,7 @@
    as written, except the Español links, which go to "es/pacientes.html" from For patients and to "es/" from
    every other page (Spanish versions of Home and For patients live in es/). Donate goes to the Zeffy form, in the header (quiet, last) and footer.
 
-   Header: logo (Route A mark + wordmark) left; desktop nav from 62.5em (For patients, Bring the van, Impact,
+   Header: logo (Route A mark + wordmark) left; desktop nav from 62.5em (For patients, For organizations, Impact,
      About, Donate in muted text); Español link beside it from 35em, above it in a thin top line on phones;
      a <details class="menu"> phone menu below 62.5em (site.js closes it on Escape, outside tap, focus leaving).
      Each desktop .nav-link repeats its text in data-label, so the current page's bold link keeps the width it
@@ -59,7 +59,7 @@
      .t-xl (section openers, 38-72), .t-l (panel headings, big numerals, 32-56), .t-m (sub-headings, dates,
      24-32), .lead (22-24, text face), body 19. Nothing is ever set below 19px.
    Motion (the agreed vocabulary, nothing else; all of it off under reduced motion):
-     Home, For patients, Bring the van: Press, Underline, Open, Page change.
+     Home, For patients, For organizations: Press, Underline, Open, Page change.
      About: those four, plus Rise and Unveil.
      Impact: all of them, plus Draw (the 12-of-26 ring) and Fill (the condition bars).
      Press = .btn and .btn-quiet scale to 0.97 while pressed. Underline = link underline thickens on hover.
