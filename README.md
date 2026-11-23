@@ -23,13 +23,14 @@ Nothing reaches the live site until it is merged into `main`.
 | The live site | Your Vercel account (free Hobby plan; Vercel's fair-use rules say asking for donations is not commercial use) |
 | Donations | Your Zeffy form |
 | The partner map on About | A Google My Maps map, "Shared Vision partner sites" |
+| Van stops and Impact numbers | The "Scheie in MOTION Schedule" and "Shared Vision Metrics" Google Sheets, read by the Apps Script in `apps-script/` |
 | Email | sharedvision2026@gmail.com |
 | A web address of your own | Not bought yet. sharedvisionhealth.org was available when last checked. Once bought, add it in Vercel under the project's Domains. |
 
 ## Before launch
 
 - **Donations:** finish the Zeffy account setup. Until then the form says it cannot take payments.
-- **Van stops:** the list ends on December 2. Add the next stops (see "Van stops" in `CLAUDE.md`) or link to your own calendar.
+- **Live updates:** van stops and the Impact numbers come from the team's Google Sheets. Finish the one-time setup in `apps-script/README.md` and put the script's address in `site.js`.
 - **Spanish:** someone who speaks Spanish should read `es/index.html` and `es/pacientes.html`. Points worth a look first: "chequeo" vs "examen de la vista", "lentes" vs "espejuelos", "la clínica móvil" vs "la van", and the seven eye checks.
 - **Partners:** confirm Chosen 300 Ministries, The Common Place and Bethesda Project are happy with their logos on the site.
 - **Clinical wording:** someone on the clinical side should read the seven checks on For patients and the condition names on Impact.

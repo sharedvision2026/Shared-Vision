@@ -19,6 +19,7 @@ A plain static site: HTML, CSS and a little JavaScript. No framework, no build s
 | `site.js` | Van stop list (hides past stops, marks today, "See all" button), phone menu, focus for in-page links. Every page works without it |
 | `img/` | Photos and partner logos (WebP with a JPG fallback) |
 | `docs/` | Free eye-health PDFs linked from For patients |
+| `apps-script/` | The Google Apps Script that feeds van stops and Impact numbers to the site from the team's Google Sheets, and its setup guide |
 | `vercel.json` | Tells search engines not to list the site yet. **Delete it on launch day.** |
 
 ## Who reads it
@@ -48,6 +49,10 @@ Home and For patients exist in English and Spanish. **Any change to one of these
 Spanish rules: "usted"; warm and short, like the English. One word for one thing: "chequeo" for the screening (not "examen", which promises a full exam), "la clínica móvil" for the van, "lentes" for glasses, "pase de SEPTA". Days and months in lowercase ("lunes 2 de noviembre"); times like "De 5:30 a 7:30 p. m.". Links from Spanish pages to English-only pages say "(en inglés)". Avoid false friends: "solicitar", not "aplicar"; "afección", not "condición". Eye terms follow the National Eye Institute's Spanish pages (nei.nih.gov/espanol).
 
 The "Español" link on each English page goes to `es/pacientes.html` from For patients and to `es/` from every other page; "English" on the Spanish pages goes back to the same page in English.
+
+## Live data from the Google Sheets
+
+Van stops and the Impact numbers update by themselves from the team's Google Sheets (see `apps-script/README.md`). `site.js` asks the Apps Script at `LIVE_URL` and redraws the stop lists and the numbers from its answer. The HTML still holds a copy, which shows with JavaScript off, before the answer arrives, or if the script fails. To change a stop or a number, change the sheet. Refresh the HTML copy from the sheets now and then (the steps below), so the fallback stays close.
 
 ## Van stops
 
