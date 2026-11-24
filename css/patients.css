@@ -34,7 +34,7 @@
 .stops-head { grid-area: head; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-md); }
 .stops-head { margin-bottom: calc(var(--s-lg) - var(--s-2xl)); } /* 24px above the first stop, so the heading reads with its list */
 .stops-head .lead { max-width: var(--measure); }
-/* the Scheie in MOTION line: one size below the heading, in the heading's column */
+/* the Scheie in MOTION line: above the heading, one size below it, filling the space beside the photo */
 .stops-intro { max-width: 34ch; }
 .stops-grid .stops { grid-area: list; }
 .stops-grid .van-look { grid-area: look; }
