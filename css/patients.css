@@ -35,7 +35,7 @@
 .stops-head { margin-bottom: calc(var(--s-lg) - var(--s-2xl)); } /* 24px above the first stop, so the heading reads with its list */
 .stops-head .lead { max-width: var(--measure); }
 /* the Scheie in MOTION line: above the heading, one size below it, filling the space beside the photo */
-.stops-intro { max-width: 34ch; }
+.stops-intro { max-width: none; }
 .stops-grid .stops { grid-area: list; }
 .stops-grid .van-look { grid-area: look; }
 
@@ -47,7 +47,7 @@
       "list list list list list list list list list list list list";
     align-items: start;
   }
-  .stops-head { align-self: end; } /* level with the photo's bottom edge, just above the first stop */
+  .stops-head { align-self: stretch; align-content: space-between; } /* the partner line starts level with the photo's top; the heading ends level with its bottom, just above the first stop */
   .stops-grid .van-look { align-self: end; margin-bottom: calc(var(--s-lg) - var(--s-2xl)); } /* the photo ends level with the last line beside it */
 }
 
